@@ -36,7 +36,7 @@ class SensiboClientAPI(object):
         return {x['room']['name']: x['id'] for x in result['result']}
 
     def pod_measurement(self, podUid):
-        result = self._get("/pods/%s/measurements" % podUid)
+        result = self._get("/pods/%s/measurements" % podUid, fields="batteryVoltage,temperature,humidity")
         return result['result']
 
     def pod_ac_state(self, podUid):
@@ -53,7 +53,8 @@ CONF_NAME = 'name'
 
 SENSOR_TYPES = {
     'temperature': ['Temperature', TEMP_CELSIUS],
-    'humidity': ['Humidity', '%']
+    'humidity': ['Humidity', '%'],
+    'batteryVoltage': ['Battery', 'mV']
 }
 
 def setup_platform(hass, config, add_devices, discovery_info=None):
@@ -62,8 +63,9 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
     my_name = config.get(CONF_NAME)
 
     add_devices([
-        SensiboSensor('Inside Temperature', 'temperature', 1, my_api_key, my_name),
-        SensiboSensor('Inside Humidity', 'humidity', 2, my_api_key, my_name)
+        SensiboSensor('Sensibo Temperature', 'temperature', 1, my_api_key, my_name),
+        SensiboSensor('Sensibo Humidity', 'humidity', 2, my_api_key, my_name),
+        SensiboSensor('Sensibo Battery', 'batteryVoltage', 3, my_api_key, my_name)
 		])
 
 class SensiboSensor(Entity):
