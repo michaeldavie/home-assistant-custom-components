@@ -63,10 +63,10 @@ def setup_platform(hass, config, add_devices, discovery_info=None):
     my_name = config.get(CONF_NAME)
 
     add_devices([
-        SensiboSensor('Sensibo Temperature', 'temperature', 1, my_api_key, my_name),
-        SensiboSensor('Sensibo Humidity', 'humidity', 2, my_api_key, my_name),
-        SensiboSensor('Sensibo Battery', 'batteryVoltage', 3, my_api_key, my_name)
-		])
+        SensiboSensor(' '.join(['Sensibo', my_name, 'Temperature']), 'temperature', 1, my_api_key, my_name),
+        SensiboSensor(' '.join(['Sensibo', my_name, 'Humidity']), 'humidity', 2, my_api_key, my_name),
+        SensiboSensor(' '.join(['Sensibo', my_name, 'Battery']), 'batteryVoltage', 3, my_api_key, my_name)
+    ])
 
 class SensiboSensor(Entity):
     """Representation of an Sensibo sensor."""
